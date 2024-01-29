@@ -1,0 +1,16 @@
+main {
+  ul {
+    @include justify(space-around);
+    margin: 10px;
+
+    li {
+      list-style: none;
+      width: 25%;
+
+      img {
+        border-radius: 30px;
+        width: 100%;
+      }
+    }
+  }
+}

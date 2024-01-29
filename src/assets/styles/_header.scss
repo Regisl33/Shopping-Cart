@@ -1,0 +1,24 @@
+header {
+  margin: 10px 15px;
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+
+  .pricing {
+    * {
+      padding: 5px;
+    }
+
+    button {
+      display: block;
+      margin: 0 auto;
+    }
+  }
+
+  hr {
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    width: 100%;
+  }
+}
