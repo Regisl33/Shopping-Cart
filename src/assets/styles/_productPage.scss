@@ -11,6 +11,26 @@ main {
         border-radius: 30px;
         width: 100%;
       }
+      .price{
+        @include justify(flex-start);
+
+        p{
+          margin: 5px;
+        }
+        span{
+          @include justify(flex-start);
+        }
+        svg{
+          font-size: 1.3rem;
+        }
+        .check{
+          color: green;
+          font-size: 1.6rem;
+        }
+      }
+      button{
+        display: block;
+      }
     }
   }
 }

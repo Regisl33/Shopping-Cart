@@ -1,27 +1,34 @@
 import { ReactElement, createContext, useCallback, useContext, useReducer } from "react"
 
-type cartState = {
-  isCartDisplay: boolean
+type productState = {
+  isCartDisplay: boolean,
+  totalItems: number,
+  totalPrice: number,
 }
-export const initCartState = {
-  isCartDisplay: false
+export const initProductState = {
+  isCartDisplay: false,
+  totalItems: 0,
+  totalPrice: 0,
 }
 const enum actions {
-  FLIP
+  FLIP,
+  ADD,
+  DELETE,
+  MODIFY,
 }
 type reducerType ={
   type: actions
 }
 
-const reducer = (state: cartState, action: reducerType):cartState =>{
+const reducer = (state: productState, action: reducerType):productState =>{
   switch(action.type){
     case actions.FLIP: return {...state, isCartDisplay: !state.isCartDisplay}
     default: throw new Error()
   }
 }
 
-const useCartDisplay = (initCartState: cartState) => {
-  const [state, dispatch] = useReducer(reducer, initCartState)
+const useCartDisplay = (initProductState: productState) => {
+  const [state, dispatch] = useReducer(reducer, initProductState)
 
   const flip = useCallback(() =>dispatch({type: actions.FLIP}), [])
 
@@ -31,7 +38,7 @@ const useCartDisplay = (initCartState: cartState) => {
 type CartContextType = ReturnType<typeof useCartDisplay>
 
 const initCartContext: CartContextType = {
-  state:initCartState,
+  state:initProductState,
   flip: () => {}
 }
 
@@ -41,9 +48,9 @@ type ChildrenType = {
   children?: ReactElement | undefined
 }
 
-export const CartContextProvider = ({children, ...initCartState}: ChildrenType & cartState): ReactElement =>{
+export const CartContextProvider = ({children, ...initProductState}: ChildrenType & productState): ReactElement =>{
   return (
-    <CartContext.Provider value={useCartDisplay(initCartState)}>
+    <CartContext.Provider value={useCartDisplay(initProductState)}>
       {children}
     </CartContext.Provider>
   )

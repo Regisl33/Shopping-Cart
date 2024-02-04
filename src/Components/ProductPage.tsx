@@ -27,11 +27,9 @@ const ProductPage = () => {
 
   
   return (
-    <main>
       <ul>
         {productData.map((prod) => <Product key={prod.sku} prod={prod} />)}
       </ul>
-    </main>
   );
 };
 

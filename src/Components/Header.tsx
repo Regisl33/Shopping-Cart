@@ -1,6 +1,5 @@
 import { useCart } from "../Context/ProductContext";
 
-
 const Header = () => {
   const {flip} = useCart()
 
