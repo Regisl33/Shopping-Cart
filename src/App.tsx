@@ -1,20 +1,20 @@
 import Footer from "./Components/Footer";
 import Header from "./Components/Header";
 import Main from "./Components/Main";
-import { initProductState, CartContextProvider } from "./Context/ProductContext";
+import { initProductState, ProductContextProvider } from './Context/ProductContext';
 
 
 const App = () => {
-  
+
   return (
     <>
-    <CartContextProvider isCartDisplay={initProductState.isCartDisplay} totalItems={initProductState.totalItems} totalPrice={initProductState.totalPrice}>
+    <ProductContextProvider isCartDisplay={initProductState.isCartDisplay} totalItems={initProductState.totalItems} totalPrice={initProductState.totalPrice} fullCart={initProductState.fullCart}>
       <>
       <Header />
       <Main />
       <Footer />
       </>
-      </CartContextProvider>
+      </ProductContextProvider>
     </>
   );
 };

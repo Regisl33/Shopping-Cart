@@ -3,9 +3,11 @@ import item0002 from "../assets/Images/item0002.jpg"
 import item0003 from "../assets/Images/item0003.jpg"
 import { MdArrowRightAlt } from "react-icons/md"
 import { IoMdCheckmark } from "react-icons/io"
+import { useAddFunc } from "../Context/ProductContext"
 
 const Product = ( {prod}: any) => {
-  
+  const {add} = useAddFunc();
+
   const imageFunc = ():string => {
     switch(prod.sku){
       case "item0001": return  item0001;
@@ -23,7 +25,7 @@ const Product = ( {prod}: any) => {
         <p>{prod.price}</p>
         <span><MdArrowRightAlt/>Item in Cart: <IoMdCheckmark className="check"/></span>
       </div>
-      <button>Add to Cart</button>
+      <button onClick={(e:any)=> add(e.target.id)}id={prod.sku}>Add to Cart</button>
     </li>
   );
 };
