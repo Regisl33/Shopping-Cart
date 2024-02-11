@@ -1,10 +1,17 @@
+import { useContext, useEffect } from "react";
 import Footer from "./Components/Footer";
 import Header from "./Components/Header";
 import Main from "./Components/Main";
-import { initProductState, ProductContextProvider } from './Context/ProductContext';
+import { initProductState, ProductContext, ProductContextProvider, handleTotalItems, handleTotalPrice } from './Context/ProductContext';
 
 
 const App = () => {
+  const {state} = useContext(ProductContext)
+
+  useEffect(() =>{
+    state.totalItems =  handleTotalItems(state);
+    state.totalPrice = handleTotalPrice(state);
+  } , [state.fullCart]);
 
   return (
     <>

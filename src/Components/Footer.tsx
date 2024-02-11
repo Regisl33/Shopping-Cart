@@ -1,13 +1,15 @@
-import { useCart } from "../Context/ProductContext";
+import { useContext } from "react";
+import { ProductContext, handleTotalItems, handleTotalPrice } from "../Context/ProductContext";
 
 const Footer = () => {
-  const {isCartDisplay, totalItems, totalPrice} = useCart();
+  const { state } = useContext(ProductContext)
+
   return (
     <footer>
-      {isCartDisplay ? null : (
+      {state.isCartDisplay ? null : (
         <div className="princing">
-          <p>Total Items: {totalItems}</p>
-          <p>Total Price: {totalPrice} $</p>
+          <p>Total Items: {handleTotalItems(state)}</p>
+          <p>Total Price: {handleTotalPrice(state)} $</p>
         </div>
       )}
       <p>Shopping Cart &copy; 2022</p>   

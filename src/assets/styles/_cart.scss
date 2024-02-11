@@ -1,0 +1,54 @@
+.cart{
+  display: flex;
+  align-items: start;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
+  font-size: 20px;
+
+  .product{
+    display: grid;
+    grid-template-columns: 20% 1fr 1fr 1fr 1fr;
+    align-items: start;
+    justify-items: end;
+    text-align: center;
+    width: 100%;
+
+    figure{
+      display: flex;
+      width: 100%;
+      justify-content: flex-start;
+      gap: 10px;
+
+      img{
+        height: 150px;
+        width: 150px;
+        border-radius: 10px;
+      }
+    }
+    select{
+      padding: 10px;
+      font-size: inherit;
+      width: 15%;
+      margin: 0 auto;
+    }
+    button{
+      font-size: 3rem;
+      color: rgb(161, 3, 3);
+      width: 15%;
+      @include justify(center);
+    }
+  }
+  p{
+    margin-top: 10px;
+  }
+  .place-order-btn{
+    font-size: inherit;
+    padding: 15px 75px;
+    margin-top: 15px;
+  }
+
+
+
+  
+}

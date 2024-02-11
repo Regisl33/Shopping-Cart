@@ -1,4 +1,4 @@
-import { ReactElement, createContext, useCallback, useContext, useReducer } from "react"
+import { ReactElement, createContext, useCallback, useReducer } from "react"
 
 export type ProductTypeArray = {
   sku: string;
@@ -12,7 +12,7 @@ export type cartProduct = {
   quantity: number,
 };
 
-type productState = {
+export type productState = {
   isCartDisplay: boolean,
   totalItems: number,
   totalPrice: number,
@@ -44,6 +44,9 @@ export const initProductState: productState = {
 const enum actions {
   FLIP,
   ADD,
+  DELETE,
+  CLEAR,
+  CHANGE,
 }
 type reducerType ={
   type: actions
@@ -54,6 +57,9 @@ const reducer = (state: productState, action: reducerType):productState =>{
   switch(action.type){
     case actions.FLIP: return {...state, isCartDisplay: !state.isCartDisplay}
     case actions.ADD: return {...state, fullCart: state.fullCart.map((prod) => prod.sku === action.payload ? {...prod, quantity: prod.quantity + 1} : prod)}
+    case actions.DELETE: return{...state, fullCart: state.fullCart.map((prod) => prod.sku === action.payload ? {...prod, quantity: prod.quantity = 0} : prod)}
+    case actions.CLEAR: return{...state, fullCart: state.fullCart.map((prod) => prod.quantity > 0 ? {...prod, quantity: prod.quantity = 0}: prod)}
+    case actions.CHANGE: return{...state, fullCart: state.fullCart.map((prod) => prod.sku === action.payload ? {...prod, quantity: prod.quantity = 0} : prod)}
     default: throw new Error()
   }
 }
@@ -63,8 +69,10 @@ const useProductDisplay = (initProductState: productState) => {
 
   const flip = useCallback(() =>dispatch({type: actions.FLIP}), [])
   const add = useCallback((sku:string) => dispatch({type: actions.ADD, payload: sku}), [])
+  const del = useCallback((sku:string) => dispatch({type: actions.DELETE, payload: sku}), [])
+  const clear = useCallback(() => dispatch({type: actions.CLEAR}), [])
 
-  return {state, flip, add}
+  return {state, flip, add, del, clear}
 } 
 
 type productContextType = ReturnType<typeof useProductDisplay>
@@ -73,6 +81,8 @@ const initProductContext: productContextType = {
   state:initProductState,
   flip: () => {},
   add: (sku:string) => {},
+  del: (sku:string) => {},
+  clear: () => {},
 }
 
 export const ProductContext = createContext<productContextType>(initProductContext)
@@ -89,41 +99,16 @@ export const ProductContextProvider = ({children, ...initProductState}: Children
   )
 }
 
-type UseCartContextType = {
-  isCartDisplay: boolean,
-  totalItems: number,
-  totalPrice: number,
-  flip: () => void
-}
-
-export const useCart = (): UseCartContextType =>{
-  const {state: {isCartDisplay, totalItems, totalPrice}, flip} = useContext(ProductContext)
-  return {isCartDisplay, totalItems, totalPrice, flip}
-}
-
-type UseAddFuncType = {
-  add: (sku:string) => void
-}
-
-export const useAddFunc = ():UseAddFuncType =>{
-  const{add} = useContext(ProductContext)
-  return{add}
-}
-
-
-export const useFullCart = ():cartProduct[] =>{
-  const {state: {fullCart}} = useContext(ProductContext)
-  return fullCart
-}
 
 export const handleTotalItems = (state:productState):number => {
   let total = 0
   state.fullCart.map((prod) => total += prod.quantity)
-  return total
+  return parseFloat(total.toFixed(2))
 }
 export const handleTotalPrice = (state:productState):number => {
   let total = 0
   state.fullCart.map((prod) => total += (prod.quantity * prod.price))
-  return total
+  return parseFloat(total.toFixed(2))
 }
+
   

@@ -1,15 +1,16 @@
-import { useCart } from "../Context/ProductContext";
+import { useContext } from "react";
+import { ProductContext, handleTotalItems, handleTotalPrice } from "../Context/ProductContext";
 
 const Header = () => {
-  const {flip, totalItems, totalPrice} = useCart()
+  const context = useContext(ProductContext)
 
   return (
     <header>
       <h1>Acme Co.</h1>
       <div className="pricing">
-        <p>Total Items: {totalItems}</p>
-        <p>Total Price: {totalPrice} $</p>
-        <button onClick={flip}>View Cart</button>
+        <p>Total Items: {handleTotalItems(context.state)}</p>
+        <p>Total Price: {handleTotalPrice(context.state)} $</p>
+        <button onClick={context.flip}>{context.state.isCartDisplay ? "View Products" : "View Cart"}</button>
       </div>
       <hr />
     </header>
