@@ -3,11 +3,16 @@ import item0001 from "../assets/Images/item0001.jpg"
 import item0002 from "../assets/Images/item0002.jpg"
 import item0003 from "../assets/Images/item0003.jpg"
 import { MdClear } from "react-icons/md";
-import { ProductContext } from "../Context/ProductContext";
+import { ProductContext, cartProduct, productState } from "../Context/ProductContext";
 
 const CartProduct = ( {prod}:any) => {
   const context = useContext(ProductContext)
-  const totalProductPrice:number = prod.quantity * prod.price;
+  const totalProductPrice:number = parseFloat((prod.quantity * prod.price).toFixed(2));
+
+  const handleQuantity = (state:productState, id:string, quantity:string) => {
+    let newCart:cartProduct[] = state.fullCart.map((prod) => prod.sku === id ? {...prod, quantity: parseInt(quantity) }: prod )
+    context.change(newCart)
+  }
 
   const imageFunc = ():string => {
     switch(prod.sku){
@@ -25,17 +30,17 @@ const CartProduct = ( {prod}:any) => {
       <p>{prod.name}</p>
       </figure>
       <p>${prod.price}</p>
-      <select id={prod.sku}onChange={(e) => console.log(e.target.value)} id="quantity">
-        <option selected={prod.quantity === 1? true : false}value="1">1</option>
-        <option selected={prod.quantity === 2? true : false}value="2">2</option>
-        <option selected={prod.quantity === 3? true : false}value="3">3</option>
-        <option selected={prod.quantity === 4? true : false}value="4">4</option>
-        <option selected={prod.quantity === 5? true : false}value="5">5</option>
-        <option selected={prod.quantity === 6? true : false}value="6">6</option>
-        <option selected={prod.quantity === 7? true : false}value="7">7</option>
-        <option selected={prod.quantity === 8? true : false}value="8">8</option>
-        <option selected={prod.quantity === 9? true : false}value="9">9</option>
-        <option selected={prod.quantity === 10? true : false}value="10">10</option>
+      <select defaultValue={prod.quantity} id={prod.sku}onChange={(e) => handleQuantity(context.state, prod.sku, e.target.value)}>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+        <option value="9">9</option>
+        <option value="10">10</option>
       </select>
       <p>${totalProductPrice}</p>
       <button onClick={(e:any)=> context.del(e.target.id)} id={prod.sku}><MdClear id={prod.sku}/></button>

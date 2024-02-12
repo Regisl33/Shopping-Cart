@@ -50,7 +50,7 @@ const enum actions {
 }
 type reducerType ={
   type: actions
-  payload?: string
+  payload?: string | cartProduct[]
 }
 
 const reducer = (state: productState, action: reducerType):productState =>{
@@ -59,7 +59,7 @@ const reducer = (state: productState, action: reducerType):productState =>{
     case actions.ADD: return {...state, fullCart: state.fullCart.map((prod) => prod.sku === action.payload ? {...prod, quantity: prod.quantity + 1} : prod)}
     case actions.DELETE: return{...state, fullCart: state.fullCart.map((prod) => prod.sku === action.payload ? {...prod, quantity: prod.quantity = 0} : prod)}
     case actions.CLEAR: return{...state, fullCart: state.fullCart.map((prod) => prod.quantity > 0 ? {...prod, quantity: prod.quantity = 0}: prod)}
-    case actions.CHANGE: return{...state, fullCart: state.fullCart.map((prod) => prod.sku === action.payload ? {...prod, quantity: prod.quantity = 0} : prod)}
+    case actions.CHANGE: return{...state, fullCart: action.payload as cartProduct[]}
     default: throw new Error()
   }
 }
@@ -71,8 +71,9 @@ const useProductDisplay = (initProductState: productState) => {
   const add = useCallback((sku:string) => dispatch({type: actions.ADD, payload: sku}), [])
   const del = useCallback((sku:string) => dispatch({type: actions.DELETE, payload: sku}), [])
   const clear = useCallback(() => dispatch({type: actions.CLEAR}), [])
+  const change = useCallback((newCart:cartProduct[]) => dispatch({type: actions.CHANGE, payload: newCart}), [])
 
-  return {state, flip, add, del, clear}
+  return {state, flip, add, del, clear, change}
 } 
 
 type productContextType = ReturnType<typeof useProductDisplay>
@@ -83,6 +84,7 @@ const initProductContext: productContextType = {
   add: (sku:string) => {},
   del: (sku:string) => {},
   clear: () => {},
+  change: (newCart:cartProduct[]) => {},
 }
 
 export const ProductContext = createContext<productContextType>(initProductContext)
@@ -110,5 +112,6 @@ export const handleTotalPrice = (state:productState):number => {
   state.fullCart.map((prod) => total += (prod.quantity * prod.price))
   return parseFloat(total.toFixed(2))
 }
+
 
   
