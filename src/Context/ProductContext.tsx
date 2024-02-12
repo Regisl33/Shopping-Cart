@@ -1,10 +1,5 @@
 import { ReactElement, createContext, useCallback, useReducer } from "react"
 
-export type ProductTypeArray = {
-  sku: string;
-  name: string;
-  price: string;
-};
 export type cartProduct = {
   sku: string,
   name: string,
@@ -81,10 +76,10 @@ type productContextType = ReturnType<typeof useProductDisplay>
 const initProductContext: productContextType = {
   state:initProductState,
   flip: () => {},
-  add: (sku:string) => {},
-  del: (sku:string) => {},
+  add: () => {},
+  del: () => {},
   clear: () => {},
-  change: (newCart:cartProduct[]) => {},
+  change: () => {},
 }
 
 export const ProductContext = createContext<productContextType>(initProductContext)
@@ -100,7 +95,6 @@ export const ProductContextProvider = ({children, ...initProductState}: Children
     </ProductContext.Provider>
   )
 }
-
 
 export const handleTotalItems = (state:productState):number => {
   let total = 0

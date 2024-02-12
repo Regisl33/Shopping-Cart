@@ -1,10 +1,14 @@
 import Product from './Product';
-import { ProductTypeArray } from "../Context/ProductContext";
-import product from "../../Data/ProductData.json";
+import { products } from "../../Data/ProductData.json";
 
+type ProductTypeArray = {
+  sku: string;
+  name: string;
+  price: string;
+};
 
 const ProductPage = () => {
-  const productData: ProductTypeArray[] = product.products;
+  const productData: ProductTypeArray[] = products;
 
   return (
       <ul>

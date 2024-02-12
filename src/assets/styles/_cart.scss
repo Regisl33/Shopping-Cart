@@ -32,6 +32,7 @@
       width: 15%;
       margin: 0 auto;
     }
+    
     button{
       font-size: 3rem;
       color: rgb(161, 3, 3);
@@ -39,16 +40,14 @@
       @include justify(center);
     }
   }
+
   p{
     margin-top: 10px;
   }
+
   .place-order-btn{
     font-size: inherit;
     padding: 15px 75px;
     margin-top: 15px;
-  }
-
-
-
-  
+  }  
 }

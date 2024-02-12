@@ -7,7 +7,7 @@ const Footer = () => {
   return (
     <footer>
       {state.isCartDisplay ? null : (
-        <div className="princing">
+        <div>
           <p>Total Items: {handleTotalItems(state)}</p>
           <p>Total Price: {handleTotalPrice(state)} $</p>
         </div>
